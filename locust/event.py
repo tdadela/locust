@@ -71,7 +71,7 @@ class EventHook:
         Experimental.
         """
         start_time = time.time()
-        start_perf_counter = time.perf_counter()
+        start_perf_counter_ns = time.perf_counter_ns()
         request_meta = {
             "request_type": request_type,
             "name": name,
@@ -85,7 +85,7 @@ class EventHook:
         except Exception as e:
             request_meta["exception"] = e
         finally:
-            request_meta["response_time"] = (time.perf_counter() - start_perf_counter) * 1000
+            request_meta["response_time"] = (time.perf_counter_ns() - start_perf_counter_ns) // 1_000_000
             self.fire(**request_meta)
 
 

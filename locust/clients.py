@@ -188,9 +188,9 @@ class HttpSession(requests.Session):
         url = self._build_url(url)
 
         start_time = time.time()
-        start_perf_counter = time.perf_counter()
+        start_perf_counter_ns = time.perf_counter_ns()
         response = self._send_request_safe_mode(method, url, data=data, json=json, **kwargs)
-        response_time = (time.perf_counter() - start_perf_counter) * 1000
+        response_time = (time.perf_counter_ns() - start_perf_counter_ns) // 1_000_000
 
         request_before_redirect = (response.history and response.history[0] or response).request
         url = request_before_redirect.url  # type: ignore
